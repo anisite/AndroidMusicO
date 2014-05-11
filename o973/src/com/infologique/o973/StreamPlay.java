@@ -12,6 +12,7 @@ import java.util.Arrays;
 import org.json.JSONObject;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.media.MediaPlayer;
@@ -40,15 +41,48 @@ public class StreamPlay extends Service implements
 {
 
 	//----Public
-	public Bitmap bitmapART;
-	public String Artiste;
-	public String Titre;
-	public String Album;
-	public String Emission;
-	public String Pochette;
-	public boolean apiSayIsPlaying;
 	
+	public String GetTitre() { 
+		if (pTitre.equals("")){
+			return getResources().getString(R.string.DefaultSong);
+		}
+		return pTitre;
+	}
+	
+	public String GetArtiste() { 
+		if (pArtiste.equals("")){
+			return getResources().getString(R.string.DefaultArtist);
+		}
+		return pArtiste;
+	}
+	
+	public String GetAlbum() {
+		return pAlbum;
+	}
+	
+	public String GetEmission() {
+		return pEmission;
+	}
+	
+	public Bitmap GetAlbumArt(boolean noDefault) {
+		if (pBitmapART == null){
+			if (noDefault){
+				return null;
+			}else{
+				return ((BitmapDrawable)getResources().getDrawable(R.drawable.adeleo)).getBitmap();
+			}
+		}
+		return pBitmapART;
+	}
+
 	//----Private
+	private String pTitre = "";
+	private String pArtiste = "";
+	private String pAlbum = "";
+	private Bitmap pBitmapART = null;
+	private String pEmission = "";
+	private String pPochette = "";
+	
 	private static  NotificationManager notificationManager;
 	private static int NotifyID;
 	
@@ -188,21 +222,30 @@ public class StreamPlay extends Service implements
 
 	public void stop() 
 	{
-		mp.stop();
-		mp.reset();
 		
-		apiSayIsPlaying = false;
+		if (mp!=null){
+			mp.stop();
+			mp.reset();
+		}
+		
+		Reset();
 		setValues(SEND.TEXTDATA);
 		setValues(SEND.NOALBUMART);
 		
-		mHandler.removeCallbacks(mUpdateTimeTask);
+		if (mHandler != null){
+			mHandler.removeCallbacks(mUpdateTimeTask);
+		}
 		 
 		if (notificationManager != null){
 			notificationManager.cancel(NotifyID);
 		}
-		myCallback.sendValue(SEND.StopPlaying);
+		
+		if (myCallback != null){
+			myCallback.sendValue(SEND.StopPlaying);
+		}
 
 		RCChangeState(false);
+
 	}
 	
 	@Override
@@ -288,7 +331,7 @@ public class StreamPlay extends Service implements
 		Log.d("StreamPlay","DEBUT RCChangeCover");
 	    //register buttons from interface 
 	    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-	    	if (RC!=null) RC.updateCover(bitmapART);
+	    	if (RC!=null) RC.updateCover(GetAlbumArt(false));
 	    }
 	    Log.d("StreamPlay","FIN RCChangeCover");
 	}
@@ -299,7 +342,7 @@ public class StreamPlay extends Service implements
 		Log.d("StreamPlay","DEBUT RCChangeInfos");
 	    //register buttons from interface 
 	    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-	    	if (RC!=null) RC.updateMetadata(Artiste, Titre, Emission);
+	    	if (RC!=null) RC.updateMetadata(GetArtiste(), GetTitre(), GetEmission());
 	    }
 	    Log.d("StreamPlay","FIN RCChangeInfos");
 	}
@@ -463,12 +506,12 @@ public class StreamPlay extends Service implements
 			        	Log.i("RESULT-973", result);
 			        	//result = "{\"show\":\"\",\"artiste\":\"Pearl Jam\",\"titre\":\"Sirens\",\"pochette\":\"http:\\/\\/infologique.net\\/api\\/album\\/pochette\\/0f13df64fa8b342873973debf844dc52.jpg\"}";
 			            JSONObject json = new JSONObject(result);
-			            Emission = json.getString("show");
-			            Artiste = json.getString("artiste");
-			            Titre = json.getString("titre");
-			            Album = json.getString("albumName");
-			            Pochette = json.getString("pochette");
-			            apiSayIsPlaying = json.getBoolean("playing");
+			            pEmission = json.getString("show");
+			            pArtiste = json.getString("artiste");
+			            pTitre = json.getString("titre");
+			            pAlbum = json.getString("albumName");
+			            pPochette = json.getString("pochette");
+			            //apiSayIsPlaying = json.getBoolean("playing");
 			            
 			            if (lastSong == null) lastSong = "";
 			            
@@ -478,14 +521,14 @@ public class StreamPlay extends Service implements
 				        	
 				        	setValues(SEND.TEXTDATA);
 
-					        if (Pochette.equals("")){
+					        if (pPochette.equals("")){
 
-					        	bitmapART = null;
+					        	pBitmapART = null;
 					        	setValues(SEND.NOALBUMART);
 
 					        	setNotify();
 					        }else{
-					        	new DownloadImageTask().execute(URLDecoder.decode(Pochette, "UTF-8"));
+					        	new DownloadImageTask().execute(URLDecoder.decode(pPochette, "UTF-8"));
 
 					        }
 
@@ -518,7 +561,7 @@ public class StreamPlay extends Service implements
 			 
 			 if (result != null)
 			 {
-				 bitmapART = result;
+				 pBitmapART = result;
 				 setNotify();
 				 setValues(SEND.ALBUMART);
 			 }else{
@@ -540,22 +583,22 @@ public class StreamPlay extends Service implements
 	    	Context context = getApplicationContext();
 			notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
-			CharSequence ticket = Titre + " - " + Artiste;
+			CharSequence ticket = GetTitre() + " - " + GetArtiste();
 
 			Intent notificationIntent = new Intent(context, MainActivity.class);
 			
 			PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 				
 				Bitmap imageBitmapAnother = null;
-				if (bitmapART!=null){
-					imageBitmapAnother = scaleToFill(bitmapART,128,128);
+				if (pBitmapART!=null){
+					imageBitmapAnother = scaleToFill(pBitmapART,128,128);
 				}
 
 				NotificationCompat.Builder noti = new NotificationCompat.Builder(context)
 						 .setTicker(ticket)
-				         .setContentTitle(Titre)
+				         .setContentTitle(GetTitre())
 
-				         .setContentText(Artiste)
+				         .setContentText(GetArtiste())
 				         .setSmallIcon(R.drawable.ic_launcher)
 				         .setLargeIcon(imageBitmapAnother)
 				         
@@ -563,8 +606,8 @@ public class StreamPlay extends Service implements
 				         .setOngoing(true)
 				         .setWhen(System.currentTimeMillis());
 				        		
-			     if (Album!=null && !Album.equals("")){
-			    	 noti.setSubText(Album);
+			     if (pAlbum!=null && !pAlbum.equals("")){
+			    	 noti.setSubText(GetAlbum());
 			     }
 
 			     notificationManager.cancelAll();
@@ -576,6 +619,16 @@ public class StreamPlay extends Service implements
 	        float factorW = width / (float) b.getWidth();
 	        float factorToUse = (factorH > factorW) ? factorW : factorH;
 	        return Bitmap.createScaledBitmap(b, (int) (b.getWidth() * factorToUse), (int) (b.getHeight() * factorToUse), false);  
+	    }
+	    
+	    public void Reset()
+	    {
+	    	pTitre = "";
+	    	pArtiste = "";
+	    	pAlbum = "";
+	    	pBitmapART = null;
+	    	pEmission = "";
+	    	pPochette = "";
 	    }
 }
 

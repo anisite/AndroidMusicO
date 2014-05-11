@@ -123,6 +123,8 @@ int layout bg_player_footer 0x7f030002
 int layout bg_player_header 0x7f030003
 int layout rounded_corner 0x7f030004
 int menu activity_main 0x7f0a0000
+int string DefaultArtist 0x7f06001d
+int string DefaultSong 0x7f06001c
 int string app_name 0x7f06001b
 int string auth_client_needs_enabling_title 0x7f060015
 int string auth_client_needs_installation_title 0x7f060016
@@ -152,9 +154,7 @@ int string common_signin_button_text 0x7f060012
 int string common_signin_button_text_long 0x7f060013
 int string desc_play_button 0x7f06001f
 int string desc_pochette 0x7f06001e
-int string loading 0x7f06001c
 int string location_client_powered_by_google 0x7f06001a
-int string please 0x7f06001d
 int style ActionBar_Solid_GreenStyle 0x7f090008
 int style ActionBar_Transparent_O97 0x7f090007
 int style AppBaseTheme 0x7f090000

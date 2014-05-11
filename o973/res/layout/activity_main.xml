@@ -42,7 +42,7 @@
                 android:paddingTop="0dp"
                 android:shadowColor="#FF000000"
                 android:shadowRadius="5"
-                android:text="@string/loading"
+                android:text="@string/DefaultSong"
                 android:textColor="#fff"
                 android:gravity="center"
                 android:textSize="12pt"
@@ -51,8 +51,9 @@
             <TextView
                 android:id="@+id/songArtist"
 		        android:singleLine="true" 
+		        android:textAlignment="center"
 		        android:ellipsize="marquee"
-		        android:marqueeRepeatLimit ="marquee_forever"
+		        android:marqueeRepeatLimit="marquee_forever"
 		        android:focusable="true"
 		        android:focusableInTouchMode="true" 
 		        android:scrollHorizontally="true"
@@ -60,10 +61,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
-                android:onClick="play"
     			android:shadowColor="#FF000000"
 	    		android:shadowRadius="5"
-                android:text="@string/please"
+                android:text="@string/DefaultArtist"
                 android:textColor="#fff"
                 android:gravity="center"
                 android:textSize="10pt"
@@ -83,6 +83,7 @@
             <ImageView
                 android:id="@+id/adele"
                 android:layout_width="wrap_content"
+                android:contentDescription="@string/desc_pochette"
                 android:layout_height="wrap_content"
                 android:scaleType="centerInside"
                 android:src="@drawable/adeleo" />
@@ -121,12 +122,12 @@
                 </LinearLayout>
             </LinearLayout>
 
- 		 <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+ 		 <LinearLayout
                 android:id="@+id/pub"
+                android:orientation="horizontal"
+                android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                ads:adUnitId="b39fc68b3b4847ae"
-    			ads:adSize="SMART_BANNER" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

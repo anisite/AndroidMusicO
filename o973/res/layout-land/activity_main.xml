@@ -46,7 +46,7 @@
                     android:shadowColor="#FF000000"
                     android:shadowRadius="5"
                     android:singleLine="true"
-                    android:text="@string/loading"
+                    android:text="@string/DefaultSong"
                     android:textAlignment="center"
                     android:textColor="#fff"
                     android:textSize="12pt"
@@ -67,7 +67,7 @@
                     android:shadowColor="#FF000000"
                     android:shadowRadius="5"
                     android:singleLine="true"
-                    android:text="@string/please"
+                    android:text="@string/DefaultArtist"
                     android:textColor="#fff"
                     android:textSize="10pt"
                     android:textStyle="normal" />
@@ -117,15 +117,14 @@
 
     </LinearLayout>
 
-    <com.google.android.gms.ads.AdView
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:id="@+id/pub"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        app:adSize="SMART_BANNER"
-        app:adUnitId="b39fc68b3b4847ae" >
-    </com.google.android.gms.ads.AdView>
+        android:layout_alignParentLeft="true" >
+    </LinearLayout>
 
 </RelativeLayout>

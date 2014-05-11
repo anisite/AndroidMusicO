@@ -2,8 +2,8 @@
 <resources>
 
     <string name="app_name">O 97,3</string>
-    <string name="loading">O 97,3</string>
-    <string name="please">Le meilleur de la musique</string>
+    <string name="DefaultSong">O 97,3</string>
+    <string name="DefaultArtist">Le meilleur de la musique</string>
     <string name="desc_pochette">Image de la pochette</string>
     <string name="desc_play_button">Bouton "Jouer"</string>
 

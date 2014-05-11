@@ -15,8 +15,10 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,20 +44,52 @@ public class MainActivity extends Activity {
 	private Handler mHandler = new Handler();
 	
 	public static StreamPlay SPservice;
+	boolean hasNavigationBar = false;
 
     @Override
     protected void onSaveInstanceState(final Bundle outState) {
     	if (SPservice!=null) outState.putBoolean("isPlaying", SPservice.isPlaying());
     }
 
+    @SuppressLint("NewApi")
+	private void CheckHasKeysOnScreen()
+    {
+    	//On met Kitkat même si le clavier onScreen peut exister depuis android 14.
+    	//car c'est pour mieux paraître avec la transparence!
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+		{
+		    hasNavigationBar = !ViewConfiguration.get(getBaseContext()).hasPermanentMenuKey();
+		    Log.d("ads - hasNavigationBar", "API 19 et plus - hasNavigationBar " + hasNavigationBar);
+		}
+		else 
+		{
+		    hasNavigationBar = false;
+		    Log.d("ads - hasNavigationBar", "REJECT - hasNavigationBar " + hasNavigationBar);
+		}
+    }
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		instance = this;
+		
 		setContentView(R.layout.activity_main);
 		SetActionBar();
-
+		CheckHasKeysOnScreen();
+		
+		adView = new AdView(this);
+		LinearLayout layout = (LinearLayout)this.findViewById(R.id.pub);
+		layout.addView(adView);
+		adView.setAdUnitId("b39fc68b3b4847ae");
+	    if (hasNavigationBar){
+	    	adView.setAdSize(AdSize.BANNER);
+	    }else{
+	    	adView.setAdSize(AdSize.SMART_BANNER);
+	    }
+	    AdRequest request = new AdRequest.Builder().build();
+	    adView.loadAd(request);
+	
 		/*DECLARATION DE ÉLÉMENTS À UTILISER*/
 		btnPlay = (ImageButton) findViewById(R.id.btnPlay);
 		songTitleLabel = (TextView) findViewById(R.id.songTitle);
@@ -71,11 +105,6 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, StreamPlay.class);
         bindService(intent, SPserviceConnection, 0);
         startService(intent);
-
-	    // Section pub
-	    adView = (AdView)this.findViewById(R.id.pub);
-	    AdRequest request = new AdRequest.Builder().build();
-	    adView.loadAd(request);
 
 		btnPlay.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -171,9 +200,11 @@ public class MainActivity extends Activity {
 	
 public void SetInfos() {
 	Log.d(TAG, "SetInfos - DEBUT");
-	if (SPservice!=null && SPservice.apiSayIsPlaying){
-	    songTitleLabel.setText(SPservice.Titre);
-	    songArtistLabel.setText(SPservice.Artiste);
+	//if (SPservice!=null && SPservice.apiSayIsPlaying){
+	if (SPservice!=null)
+	{
+	    songTitleLabel.setText(SPservice.GetTitre());
+	    songArtistLabel.setText(SPservice.GetArtiste());
 	}else{
 		SetDefault();
 	}
@@ -182,8 +213,8 @@ public void SetInfos() {
 
 public void SetDefault()
 {
-    songTitleLabel.setText(R.string.loading);
-    songArtistLabel.setText(R.string.please);
+    songTitleLabel.setText(R.string.DefaultSong);
+    songArtistLabel.setText(R.string.DefaultArtist);
 }
 
 public void SetNoArt()
@@ -201,11 +232,14 @@ public void SetNoArt()
 
 private void GererBitmap()
 {
-	if (SPservice==null || SPservice.bitmapART == null || !SPservice.apiSayIsPlaying){
+	if (SPservice==null ) // || !SPservice.apiSayIsPlaying){
+	{
 		SetNoArt();
-	}else if (!SPservice.bitmapART.isRecycled()){
-		((ImageView) findViewById(R.id.adele)).setImageBitmap(SPservice.bitmapART);
-		SetBlurBackgroundKitkat(SPservice.bitmapART);
+	}
+	else
+	{
+		((ImageView) findViewById(R.id.adele)).setImageBitmap(SPservice.GetAlbumArt(false));
+		SetBlurBackgroundKitkat(SPservice.GetAlbumArt(true));
 	}
 }
 
