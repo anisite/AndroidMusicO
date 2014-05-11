@@ -51,42 +51,18 @@ public class MainActivity extends Activity {
 	
 	boolean isBinded = false;
 	
-	//boolean DontLoad = false;
-	
-	/*KEEP THAT*/
-	//private static String lastSong;
-	//private static String emission;
-	//private static String artiste;
-	//private static String titre;
-	//private static String pochette;
-	//private static Bitmap imageBitmap;
-	
     @Override
     protected void onSaveInstanceState(final Bundle outState) {
     	if (SPservice!=null) outState.putBoolean("isPlaying", SPservice.isPlaying());
-    	
-    	//outState.putInt("NotifyID", NotifyID);
-    	/*outState.putString("lastSong", lastSong);
-    	outState.putString("emission", emission);http://marketplace.eclipse.org/marketplace-client-intro?mpc_install=1336
-    	outState.putString("artiste", artiste);
-    	outState.putString("titre", titre);
-    	outState.putString("pochette", pochette);*/
-    	//outState.putParcelable("imageBitmap", Bitmap.createBitmap(imageBitmap));
-    	
-        /*outState.putBoolean("isBinded", isBinded);
-        outState.putSerializable("SPservice", SPservice);*/
     }
-  
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		instance = this;
 		setContentView(R.layout.activity_main);
 		SetActionBar();
-		
-
 
 		/*DECLARATION DE ÉLÉMENTS À UTILISER*/
 		btnPlay = (ImageButton) findViewById(R.id.btnPlay);
