@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.infologique.o973"
+    android:versionCode="18"
+    android:versionName="1.3d" >
+
+    <uses-sdk
+        android:minSdkVersion="10"
+        android:targetSdkVersion="19" android:maxSdkVersion="19"/>
+ 	<uses-permission android:name="android.permission.INTERNET"/>
+ 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+ 	
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" android:persistent="true">
+        <meta-data android:value="b39fc68b3b4847ae" android:name="a1511c26abd8f2e" />
+		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
+        <activity android:name="com.google.android.gms.ads.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
+        <!-- android:screenOrientation="portrait" -->
+        <activity
+            android:name="com.infologique.o973.MainActivity"
+            android:label="O 97,3" 
+            android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+	    <service android:name="StreamPlay"></service>
+	     <receiver android:name="com.infologique.o973.MediaButtonReceiver" android:enabled="true">
+	        <intent-filter android:priority="2147483647" >
+	            <action android:name="android.intent.action.MEDIA_BUTTON" />
+	        </intent-filter>
+	    </receiver>
+	    <intent-filter>
+            <action android:name="com.infologique.o973.action.PLAY" />
+		</intent-filter>
+    </application>
+
+
+</manifest>

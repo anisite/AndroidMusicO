@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+     <color name="green">#242021</color>
+     <color name="green_accent">#242021</color>
+     <color name="whiter">#333c4044</color>
+     
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+	<style name="ThemeSelector" parent="AppBaseTheme">
+	    <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
+	    <item name="android:windowTitleStyle">@style/CustomWindowTitle</item>
+	    <item name="android:windowTitleSize">50dp</item>
+	    <item name="android:windowTranslucentStatus">true</item>
+	</style>
+	
+	<style name="WindowTitleBackground">     
+	    <item name="android:background">@drawable/ab_transparent_example</item>
+	</style>
+	
+	<style name="CustomWindowTitle" parent="WindowTitle">
+	    <item name="android:textAppearance">@style/CustomWindowTitleText</item>
+	</style>
+	
+	<style name="CustomWindowTitleText" parent="android:TextAppearance">
+	    <item name="android:textColor">#FFFFFF</item>
+	</style>
+	
+	<style name="WindowTitle">
+	    <item name="android:singleLine">true</item>
+	    <item name="android:textAppearance">@style/CustomWindowTitleText</item>
+	    <item name="android:shadowColor">#BB000000</item>
+	    <item name="android:shadowRadius">2.75</item>
+	</style>
+    
+    <style name="AppBaseTheme" parent="android:Theme.Holo">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.-->
+       
+        <item name="android:windowBackground">@color/green</item> 
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Transparent.O97</item>
+    </style>
+
+    <style name="ActionBar.Transparent.O97" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:background">@drawable/ab_transparent_example</item>
+        <!--<item name="android:windowBackground">@color/whiter</item> 
+        <item name="android:background">@layout/bg_actionbar</item>
+        <item name="android:textColor">@color/green</item>
+        <item name="android:textAppearance">?android:attr/customNavigationLayout</item>
+        <item name="android:shadowColor">#FF000000</item>
+         <item name="android:gravity">center</item>
+        <item name="android:shadowRadius">5</item> -->
+        <!--  <item name="android:progressBarStyle">@style/ProgressBar.Example</item>-->
+    </style>
+    
+    <style name="ActionBar.Solid.GreenStyle" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:background">@color/green_accent</item>
+    </style>
+    
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+    <style name="LoginFormContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+</resources>
