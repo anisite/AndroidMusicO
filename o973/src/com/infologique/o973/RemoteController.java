@@ -22,18 +22,11 @@ public class RemoteController {
 	   */ 
 	  public void register(Context context,Intent mediaButtonIntent, AudioManager audioManager) {
 	    if (remoteControlClient == null) {
-	      //ComponentName myEventReceiver = new ComponentName(context, MediaButtonReceiver.class);
-	      //audioManager.registerMediaButtonEventReceiver(myEventReceiver);
-	    	
-	      // build the PendingIntent for the remote control client 
-	     // Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
-	      //mediaButtonIntent.setComponent(myEventReceiver);
-	      // create and register the remote control client 
+
 	      PendingIntent mediaPendingIntent = PendingIntent.getBroadcast(context, 0,
 	          mediaButtonIntent, 0);
 	      remoteControlClient = new RemoteControlClient(mediaPendingIntent);
-	      remoteControlClient
-	          .setTransportControlFlags(RemoteControlClient.FLAG_KEY_MEDIA_PLAY_PAUSE);
+	      remoteControlClient.setTransportControlFlags(RemoteControlClient.FLAG_KEY_MEDIA_PLAY_PAUSE);
 	      audioManager.registerRemoteControlClient(remoteControlClient);
 	    } 
 	  } 
@@ -69,18 +62,6 @@ public class RemoteController {
 	  public void updateMetadata(String Artiste, String Titre, String Show) {
 	    if (remoteControlClient != null) {
 	      android.media.RemoteControlClient.MetadataEditor editor = remoteControlClient.editMetadata(false);
-	      //DBFeed feed = episode.getFeed();
-	 
-	      //ImageCache imageCache = App.get().getImageCache();
-	      //String imgUrl = episode.getImgUrl();
-	      /*BitmapDrawable episodeIcon = imageCache.getResource(imgUrl);
-	      if (episodeIcon.equals(imageCache.getDefaultIcon())) {
-	        episodeIcon = imageCache.getResource(feed.getImgUrl());
-	      } 
-	      editor.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK,
-	          episodeIcon.getBitmap());*/
-	 
-	      //editor.putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, duration);
 	 
 	      editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST, Artiste);
 	      editor.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, Titre);
@@ -92,20 +73,7 @@ public class RemoteController {
 	  public void updateCover(Bitmap bit) {
 		    if (remoteControlClient != null) {
 		      android.media.RemoteControlClient.MetadataEditor editor = remoteControlClient.editMetadata(false);
-		      //DBFeed feed = episode.getFeed();
-		 
-		      //ImageCache imageCache = App.get().getImageCache();
-		      //String imgUrl = episode.getImgUrl();
-		      /*BitmapDrawable episodeIcon = imageCache.getResource(imgUrl);
-		      if (episodeIcon.equals(imageCache.getDefaultIcon())) {
-		        episodeIcon = imageCache.getResource(feed.getImgUrl());
-		      } */
 		      editor.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, bit);
-		 
-		      //editor.putLong(MediaMetadataRetriever.METADATA_KEY_DURATION, duration);
-		 
-		      //editor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST, Artiste);
-		      //editor.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, Titre);
 		      editor.apply();
 		    } 
 		  } 

@@ -12,19 +12,12 @@ public class MediaButtonReceiver extends BroadcastReceiver {
       final KeyEvent event = (KeyEvent) intent
           .getParcelableExtra(Intent.EXTRA_KEY_EVENT);
       if (event != null && event.getAction() == KeyEvent.ACTION_UP) {
-        //QueuePlayer player = App.get().getPlayer();
-        //Queue queue = App.get().getQueue();
-    	  ///com.infologique.o973.MainActivity.this.
         if (event.getKeyCode() == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
         	if (MainActivity.SPservice.isPlaying()){
         		MainActivity.SPservice.stop();
         	}else{
         		MainActivity.SPservice.play();
         	}
-        } else if (event.getKeyCode() == KeyEvent.KEYCODE_MEDIA_NEXT) {
-         // queue.rotateUpward();
-        } else if (event.getKeyCode() == KeyEvent.KEYCODE_MEDIA_PREVIOUS) {
-         // queue.rotateDownward();
         }
       }
     }
