@@ -76,27 +76,7 @@ public class MainActivity extends Activity {
 			//isPlaying = 
 		    if (savedInstanceState.getBoolean("isPlaying")) SetPlay(true);
 			 
-		    //NotifyID=savedInstanceState.getInt("NotifyID");
-		    /*lastSong=savedInstanceState.getString("lastSong");
-		    emission=savedInstanceState.getString("emission");
-		    artiste=savedInstanceState.getString("artiste");
-		    titre=savedInstanceState.getString("titre");
-		    pochette=savedInstanceState.getString("pochette");*/
-		    //imageBitmap = savedInstanceState.getParcelable("imageBitmap");
-
-		    /*if (imageBitmap!=null && imageBitmap.isRecycled()){
-		    	DontLoad= false;
-		    }else{
-		    	//GererBitmap(imageBitmap);
-		    }*/
-		    //SetInfos();
-		    
-		    /*setNotify(false);*/
-			 /*isBinded =  savedInstanceState.getBoolean("isBinded");
-			 SPservice = (StreamPlay) savedInstanceState.getSerializable("SPservice");*/
-	    }/*else{
-	    	Toast.makeText(getBaseContext(), "pas de save state", Toast.LENGTH_SHORT).show();
-	    }*/
+	    }
 		 
 		/*CAST ET DECLARATIONS DE LA FENETRE*/
         Intent intent = new Intent(this, StreamPlay.class);
