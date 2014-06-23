@@ -23,7 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.infologique.o973.StreamPlay.LocalBinder;
-import com.google.android.gms.ads.*;
+//import com.google.android.gms.ads.*;
 
 public class MainActivity extends Activity {
 

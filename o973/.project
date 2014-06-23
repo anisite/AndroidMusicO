@@ -3,6 +3,8 @@
 	<name>o973</name>
 	<comment></comment>
 	<projects>
+		<project>android-support-v7-gridlayout</project>
+		<project>google-play-services_lib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
